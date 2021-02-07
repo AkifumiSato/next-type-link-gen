@@ -3,13 +3,17 @@
   "version": "0.0.1",
   "description": "Plugin that converts the internal links of the `next.js` app so that they can be handled type-safely.",
   "main": "dist/index.js",
+  "bin": {
+    "next-type-link-gen": "./bin/next-type-link-gen.js"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "esbuild src/index.ts --outdir=dist"
+    "build": "esbuild src/index.ts --bundle --outdir=dist --platform=node --format=cjs"
   },
   "author": "akfm",
   "license": "MIT",
   "devDependencies": {
+    "@types/node": "^14.14.25",
     "esbuild": "^0.8.42",
     "typescript": "^4.1.3"
   }
