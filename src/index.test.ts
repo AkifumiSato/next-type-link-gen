@@ -1,4 +1,4 @@
-import { DynamicUrl, queryFactory, staticRoute, StaticUrl } from '.'
+import { dynamicRoute, DynamicUrl, queryFactory, staticRoute, StaticUrl } from '.'
 
 describe('[queryFactory]', () => {
   test('some', () => {
@@ -45,6 +45,20 @@ describe('[DynamicUrl]', () => {
       new DynamicUrl<{ name: string }>('/[name]', '/').toUrl({ name: 'fake_name' })
     ).toBe('/fake_name')
   })
+
+  test('toUrl', () => {
+    expect(
+      new DynamicUrl<{
+        name: string
+        a?: string
+        b?: number
+      }>('/[name]', '/').toUrl({
+        name: 'fake_name',
+        a: 'aaa',
+        b: 999,
+      })
+    ).toBe('/fake_name?a=aaa&b=999')
+  })
 })
 
 describe('[staticRoute]', () => {
@@ -55,5 +69,34 @@ describe('[staticRoute]', () => {
 
   test('toUrl', () => {
     expect(staticRoute('/dummy')('/').toUrl()).toBe('/dummy')
+  })
+})
+
+describe('[dynamicRoute]', () => {
+  test('isCurrent', () => {
+    expect(dynamicRoute('/[name]')('/').isCurrent()).toBe(false)
+    expect(dynamicRoute('/[name]')('/[name]').isCurrent()).toBe(true)
+  })
+
+  test('toUrl', () => {
+    expect(dynamicRoute('/[name]')('/').toUrl({ name: 'fake_name' })).toBe('/fake_name')
+  })
+
+  test('toUrl', () => {
+    expect(dynamicRoute('/[name]')('/').toUrl({ name: 'fake_name' })).toBe('/fake_name')
+  })
+
+  test('toUrl', () => {
+    expect(
+      dynamicRoute<{
+        name: string
+        a?: string
+        b?: number
+      }>('/[name]')('/').toUrl({
+        name: 'fake_name',
+        a: 'aaa',
+        b: 999,
+      })
+    ).toBe('/fake_name?a=aaa&b=999')
   })
 })
