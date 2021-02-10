@@ -1,4 +1,4 @@
-import { dynamicRoute, DynamicUrl, queryFactory, staticRoute, StaticUrl } from '.'
+import { dynamicRoute, DynamicUrl, nextLinkHooksFactory, queryFactory, staticRoute, StaticUrl } from '.'
 
 describe('[queryFactory]', () => {
   test('some', () => {
@@ -100,3 +100,25 @@ describe('[dynamicRoute]', () => {
     ).toBe('/fake_name?a=aaa&b=999')
   })
 })
+
+describe('[nextLinkHooksFactory]', () => {
+  test('normal', () => {
+    const useNextLink = nextLinkHooksFactory({
+      top: staticRoute('/'),
+      name: dynamicRoute<{
+        name: string
+        a?: string
+        b?: number
+      }>('/[name]'),
+    })
+    const links = useNextLink('/')
+
+    expect(links.top.isCurrent()).toBe(true)
+    expect(links.name.toUrl({
+      name: 'fake_name',
+      a: 'aaa',
+      b: 999,
+    })).toBe('/fake_name?a=aaa&b=999')
+  })
+})
+

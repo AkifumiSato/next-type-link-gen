@@ -78,7 +78,22 @@ export class DynamicUrl<T extends Params> extends UrlScheme<T> {
 
 export const staticRoute = <T extends Params>(url: string) => (currentPath: string) => new StaticUrl<T>(url, currentPath)
 export const dynamicRoute = <T extends Params>(url: string) => (currentPath: string) => new DynamicUrl<T>(url, currentPath)
-// todo add nextLinkFactory
+
+type Routes = {
+  [key: string]: ReturnType<typeof staticRoute> | ReturnType<typeof dynamicRoute>
+}
+
+type Links<T extends Routes> = {
+  [P in keyof T]: ReturnType<T[P]>
+}
+
+export const nextLinkHooksFactory = <T extends Routes>(routes: T) => (currentPath: string) => Object.entries(routes)
+    .reduce((accum, [key, route]) => {
+      // @ts-ignore
+      accum[key] = route(currentPath)
+      return accum
+    }, {}) as Links<T>
+
 // todo add useNextLink
 // todo cli template add
 // todo add index.d.ts
