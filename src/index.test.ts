@@ -88,6 +88,16 @@ describe('[staticRoute]', () => {
   test('toUrl', () => {
     expect(staticRoute('/dummy')('/').toUrl()).toBe('/dummy')
   })
+
+  test('toUrl with parameter', () => {
+    expect(staticRoute<{
+      a?: string
+      b?: number
+    }>('/dummy')('/').toUrl({
+      a: 'aaa',
+      b: 123,
+    })).toBe('/dummy?a=aaa&b=123')
+  })
 })
 
 describe('[dynamicRoute]', () => {
