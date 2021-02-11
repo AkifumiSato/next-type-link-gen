@@ -1,3 +1,5 @@
+import { useRouter } from 'next/router'
+
 type Params = {
   [key: string]: string | number | undefined
 }
@@ -87,13 +89,16 @@ type Links<T extends Routes> = {
   [P in keyof T]: ReturnType<T[P]>
 }
 
-export const nextLinkHooksFactory = <T extends Routes>(routes: T) => (currentPath: string) => Object.entries(routes)
+export const nextLinksHooksFactory = <T extends Routes>(routes: T) => () => {
+  const router = useRouter()
+
+  return Object.entries(routes)
     .reduce((accum, [key, route]) => {
       // @ts-ignore
-      accum[key] = route(currentPath)
+      accum[key] = route(router.pathname)
       return accum
     }, {}) as Links<T>
+}
 
-// todo add useNextLink
-// todo cli template add
-// todo add index.d.ts
+// todo rename
+// todo next-type-link-hooks/test add

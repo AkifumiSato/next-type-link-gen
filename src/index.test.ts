@@ -1,4 +1,13 @@
-import { dynamicRoute, DynamicUrl, nextLinkHooksFactory, queryFactory, staticRoute, StaticUrl } from '.'
+import { renderHook } from '@testing-library/react-hooks'
+import * as nextRouter from 'next/router';
+import {
+  dynamicRoute,
+  DynamicUrl,
+  nextLinksHooksFactory,
+  queryFactory,
+  staticRoute,
+  StaticUrl
+} from '.'
 
 describe('[queryFactory]', () => {
   test('some', () => {
@@ -101,9 +110,16 @@ describe('[dynamicRoute]', () => {
   })
 })
 
-describe('[nextLinkHooksFactory]', () => {
+describe('[nextLinksHooksFactory]', () => {
+  beforeAll(() => {
+    // @ts-ignore
+    nextRouter.useRouter = jest.fn().mockReset()
+  })
+
   test('normal', () => {
-    const useNextLink = nextLinkHooksFactory({
+    // @ts-ignore
+    (nextRouter.useRouter as jest.Mock).mockImplementation(() => ({ pathname: '/' }))
+    const useNextLink = nextLinksHooksFactory({
       top: staticRoute('/'),
       name: dynamicRoute<{
         name: string
@@ -111,10 +127,10 @@ describe('[nextLinkHooksFactory]', () => {
         b?: number
       }>('/[name]'),
     })
-    const links = useNextLink('/')
+    const { result } = renderHook(useNextLink)
 
-    expect(links.top.isCurrent()).toBe(true)
-    expect(links.name.toUrl({
+    expect(result.current.top.isCurrent()).toBe(true)
+    expect(result.current.name.toUrl({
       name: 'fake_name',
       a: 'aaa',
       b: 999,
