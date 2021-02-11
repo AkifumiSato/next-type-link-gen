@@ -38,6 +38,10 @@ describe('[StaticUrl]', () => {
   test('isCurrent: false', () => {
     expect(new StaticUrl('/dummy', '/').isCurrent()).toBe(false)
   })
+
+  test('currentPath is undefined', () => {
+    expect(new StaticUrl('/dummy').isCurrent()).toBe(false)
+  })
 })
 
 describe('[DynamicUrl]', () => {
@@ -47,6 +51,10 @@ describe('[DynamicUrl]', () => {
 
   test('isCurrent', () => {
     expect(new DynamicUrl('/[name]', '/').isCurrent()).toBe(false)
+  })
+
+  test('currentPath is undefined', () => {
+    expect(new DynamicUrl('/[name]').isCurrent()).toBe(false)
   })
 
   test('toUrl', () => {
@@ -74,6 +82,7 @@ describe('[staticRoute]', () => {
   test('isCurrent', () => {
     expect(staticRoute('/dummy')('/').isCurrent()).toBe(false)
     expect(staticRoute('/dummy')('/dummy').isCurrent()).toBe(true)
+    expect(staticRoute('/dummy')().isCurrent()).toBe(false)
   })
 
   test('toUrl', () => {
@@ -85,6 +94,7 @@ describe('[dynamicRoute]', () => {
   test('isCurrent', () => {
     expect(dynamicRoute('/[name]')('/').isCurrent()).toBe(false)
     expect(dynamicRoute('/[name]')('/[name]').isCurrent()).toBe(true)
+    expect(dynamicRoute('/[name]')().isCurrent()).toBe(false)
   })
 
   test('toUrl', () => {
@@ -135,6 +145,21 @@ describe('[nextLinksHooksFactory]', () => {
       a: 'aaa',
       b: 999,
     })).toBe('/fake_name?a=aaa&b=999')
+  })
+
+  test('normal', () => {
+    // @ts-ignore
+    (nextRouter.useRouter as jest.Mock).mockImplementation(() => ({}))
+    const useNextLink = nextLinksHooksFactory({
+      top: staticRoute('/'),
+      name: dynamicRoute<{
+        name: string
+      }>('/[name]'),
+    })
+    const { result } = renderHook(useNextLink)
+
+    expect(result.current.top.isCurrent()).toBe(false)
+    expect(result.current.name.isCurrent()).toBe(false)
   })
 })
 

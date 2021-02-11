@@ -18,7 +18,7 @@ export const queryFactory = (params: Params) => {
 export abstract class UrlScheme<T extends Params> {
   protected constructor(
     protected url: string,
-    protected currentRoutePath: string
+    protected currentRoutePath?: string
   ) {
   }
 
@@ -30,7 +30,7 @@ export abstract class UrlScheme<T extends Params> {
 }
 
 export class StaticUrl<T extends Params> extends UrlScheme<T> {
-  constructor(url: string, currentRoutePath: string) {
+  constructor(url: string, currentRoutePath?: string) {
     super(url, currentRoutePath)
   }
 
@@ -43,7 +43,7 @@ export class StaticUrl<T extends Params> extends UrlScheme<T> {
 }
 
 export class DynamicUrl<T extends Params> extends UrlScheme<T> {
-  constructor(url: string, currentRoutePath: string) {
+  constructor(url: string, currentRoutePath?: string) {
     super(url, currentRoutePath)
   }
 
@@ -78,8 +78,8 @@ export class DynamicUrl<T extends Params> extends UrlScheme<T> {
   }
 }
 
-export const staticRoute = <T extends Params>(url: string) => (currentPath: string) => new StaticUrl<T>(url, currentPath)
-export const dynamicRoute = <T extends Params>(url: string) => (currentPath: string) => new DynamicUrl<T>(url, currentPath)
+export const staticRoute = <T extends Params>(url: string) => (currentPath?: string) => new StaticUrl<T>(url, currentPath)
+export const dynamicRoute = <T extends Params>(url: string) => (currentPath?: string) => new DynamicUrl<T>(url, currentPath)
 
 type Routes = {
   [key: string]: ReturnType<typeof staticRoute> | ReturnType<typeof dynamicRoute>
@@ -95,10 +95,9 @@ export const nextLinksHooksFactory = <T extends Routes>(routes: T) => () => {
   return Object.entries(routes)
     .reduce((accum, [key, route]) => {
       // @ts-ignore
-      accum[key] = route(router.pathname)
+      accum[key] = route(router.pathname ?? '')
       return accum
     }, {}) as Links<T>
 }
 
-// todo rename
 // todo next-type-link-hooks/test add

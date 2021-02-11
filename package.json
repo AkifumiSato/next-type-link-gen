@@ -1,14 +1,18 @@
 {
   "name": "next-type-link-gen",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Plugin that converts the internal links of the `next.js` app so that they can be handled type-safely.",
   "main": "dist/index.js",
+  "files": [
+    "dist"
+  ],
   "bin": {
     "next-type-link-gen": "./bin/next-type-link-gen.js"
   },
   "scripts": {
     "test": "jest",
-    "build": "tsc --emitDeclarationOnly && esbuild src/index.ts --bundle --outdir=dist"
+    "build": "tsc",
+    "prepare": "npm run build"
   },
   "author": "akfm",
   "license": "MIT",
@@ -17,7 +21,7 @@
     "@types/jest": "^26.0.20",
     "@types/node": "^14.14.25",
     "@types/react": "^17.0.1",
-    "esbuild": "^0.8.42",
+    "esbuild": "^0.8.44",
     "esbuild-jest": "^0.4.0",
     "jest": "^26.6.3",
     "next": ">=10.0.0",
