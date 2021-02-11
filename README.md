@@ -1,5 +1,5 @@
 # next-type-link-gen
-`next-type-link-gen` is a custom hooks generator that makes next internal links type safe.
+`next-type-link-gen` is a custom hooks generator that makes Next.js internal links type safe.
 
 ### Installation
 npm
@@ -72,8 +72,8 @@ const rootPage = staticRoute<{
 
 ### dynamicRoute
 create dynamic route.
-Next routing parameter & get parameter type define.
-Pass the equivalent of Next router.pathname as an argument.
+Next.js routing parameter & get parameter type define.
+Pass the equivalent of Next.js router.pathname as an argument.
 ```ts
 const userPage = dynamicRoute<{
   a?: string
