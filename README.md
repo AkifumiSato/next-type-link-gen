@@ -93,6 +93,20 @@ const useNextLinks = nextLinksHooksFactory({
     b?: number
   }>('/[name]'),
 })
+
+// usage
+const links = useNextLinks()
+console.log(links.top.toUrl())
+```
+
+### UrlScheme
+this hooks contain your routing type.
+if you want your links, `[route].toUrl` call.
+`toUrl`: parameters must be passed as arguments.
+`isCurrent`  returns true if it matches the route in Next.js router.pathname.
+```ts
+console.log(links.top.toUrl())
+console.log(links.top.isCurrent())
 ```
 
 ### Test
