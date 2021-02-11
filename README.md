@@ -4,12 +4,12 @@
 ### Installation
 npm
 ```
-$ npm install next-typed-routes
+$ npm install next-type-link-gen
 ```
 
 yarn
 ```
-$ yarn add next-typed-routes
+$ yarn add next-type-link-gen
 ```
 
 ### Example
