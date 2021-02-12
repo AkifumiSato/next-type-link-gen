@@ -119,7 +119,7 @@ You can get the information of the page directory of Next.js by `readNextPagesRo
 
 ```ts
 import { renderHook } from '@testing-library/react-hooks'
-import { linksMapToRouteString, readNextPagesRoute } from 'next-type-link-gen'
+import { linksMapToRouteString, readNextPagesRoute } from 'next-type-link-gen/utils'
 import { useNextLinks } from './url'
 
 test('[useNextLinks] routes', () => {
