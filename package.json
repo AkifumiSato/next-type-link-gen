@@ -1,6 +1,6 @@
 {
   "name": "next-type-link-gen",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Plugin that converts the internal links of the `next.js` app so that they can be handled type-safely.",
   "keywords": ["next", "next.js"],
   "main": "index.js",
@@ -9,8 +9,9 @@
   ],
   "scripts": {
     "test": "jest",
-    "build": "tsc",
-    "prepare": "npm run build"
+    "clear": "rm -rf ./utils index.js index.d.ts index.js.map",
+    "build": "yarn run clear && tsc",
+    "prepare": "yarn build"
   },
   "author": "akfm",
   "license": "MIT",
