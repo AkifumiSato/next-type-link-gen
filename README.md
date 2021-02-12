@@ -1,4 +1,7 @@
 # next-type-link-gen
+[![npm version](https://badge.fury.io/js/next-type-link-gen.svg
+)](https://badge.fury.io/js/next-type-link-gen)
+
 `next-type-link-gen` is a custom hooks generator that makes Next.js internal links type safe.
 
 ### Installation
@@ -112,4 +115,19 @@ console.log(links.top.toRouteString())
 ```
 
 ### Test
-todo
+You can get the information of the page directory of Next.js by `readNextPagesRoute`, and you can also get with linksMapToRouteString the route information you registered, which you can use to test the biosynthesis of links.
+
+```ts
+import { renderHook } from '@testing-library/react-hooks'
+import { linksMapToRouteString, readNextPagesRoute } from 'next-type-link-gen'
+import { useNextLinks } from './url'
+
+test('[useNextLinks] routes', () => {
+  const { result } = renderHook(useNextLinks)
+
+  const pageUrls = readNextPagesRoute()
+  const routeUrls = linksMapToRouteString(result.current)
+
+  expect(pageUrls).toEqual(expect.arrayContaining(routeUrls))
+})
+```
