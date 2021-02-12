@@ -1,7 +1,8 @@
 import * as fs from 'fs'
 import path from 'path'
+import { nextLinksHooksFactory } from '../index'
 
-export const getAllFiles = (dirPath: string): string[] => {
+const getAllFiles = (dirPath: string): string[] => {
   const files = fs.readdirSync(dirPath)
 
   return files
@@ -41,5 +42,13 @@ export const readNextPagesRoute = (): string[] => {
     .map(filePath => filePath
       .replace(/\.tsx?/, '')
       .replace(/index$/, '')
+      .replace(process.cwd(), '')
     )
+    .filter(filePath => filePath.match(/_app$|_document$/) === null)
 }
+
+type Links = ReturnType<ReturnType<typeof nextLinksHooksFactory>>
+
+export const linksMapToRouteString = (links: Links) => Object.entries(links)
+  .map(([_key, urlObj]) => urlObj.toRouteString())
+  .sort()

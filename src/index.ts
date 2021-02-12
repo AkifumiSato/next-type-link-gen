@@ -22,6 +22,10 @@ export abstract class UrlScheme<T extends Params> {
   ) {
   }
 
+  toRouteString() {
+    return this.url
+  }
+
   isCurrent(): boolean {
     return this.url === this.currentRoutePath
   }

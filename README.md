@@ -103,10 +103,12 @@ console.log(links.top.toUrl())
 this hooks contain your routing type.
 if you want your links, `[route].toUrl` call.
 `toUrl`: parameters must be passed as arguments.
-`isCurrent`  returns true if it matches the route in Next.js router.pathname.
+`isCurrent`: returns true if it matches the route in Next.js router.pathname.
+`toRouteString`: returns route match string.
 ```ts
 console.log(links.top.toUrl())
 console.log(links.top.isCurrent())
+console.log(links.top.toRouteString())
 ```
 
 ### Test

@@ -23,6 +23,10 @@ describe('[queryFactory]', () => {
 })
 
 describe('[StaticUrl]', () => {
+  test('toRouteString', () => {
+    expect(new StaticUrl('/dummy', '/').toRouteString()).toBe('/dummy')
+  })
+
   test('toUrl', () => {
     expect(new StaticUrl('/dummy', '/').toUrl()).toBe('/dummy')
   })
@@ -45,6 +49,10 @@ describe('[StaticUrl]', () => {
 })
 
 describe('[DynamicUrl]', () => {
+  test('toRouteString', () => {
+    expect(new DynamicUrl('/[name]', '/').toRouteString()).toBe('/[name]')
+  })
+
   test('isCurrent', () => {
     expect(new DynamicUrl('/[name]', '/[name]').isCurrent()).toBe(true)
   })
