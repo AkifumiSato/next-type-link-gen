@@ -42,7 +42,7 @@ export const readNextPagesRoute = (): string[] => {
     .map(filePath => filePath
       .replace(/\.tsx?/, '')
       .replace(/index$/, '')
-      .replace(process.cwd(), '')
+      .replace(/.*(\/src\/pages|\/pages)/, '')
     )
     .filter(filePath => filePath.match(/_app$|_document$/) === null)
 }

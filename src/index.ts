@@ -99,7 +99,7 @@ export const nextLinksHooksFactory = <T extends Routes>(routes: T) => () => {
   return Object.entries(routes)
     .reduce((accum, [key, route]) => {
       // @ts-ignore
-      accum[key] = route(router.pathname ?? '')
+      accum[key] = route(router?.pathname ?? '')
       return accum
     }, {}) as Links<T>
 }
