@@ -1,4 +1,5 @@
 import { useRouter } from 'next/router'
+export * from './utils'
 
 type Params = {
   [key: string]: string | number | undefined
