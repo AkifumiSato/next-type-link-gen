@@ -1,6 +1,6 @@
 {
   "name": "next-type-link-gen",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Plugin that converts the internal links of the `next.js` app so that they can be handled type-safely.",
   "keywords": ["next", "next.js"],
   "repository": {
@@ -11,7 +11,8 @@
   "main": "index.js",
   "types": "index.d.ts",
   "files": [
-    "utils"
+    "utils",
+    "index.d.ts"
   ],
   "scripts": {
     "test": "jest",
